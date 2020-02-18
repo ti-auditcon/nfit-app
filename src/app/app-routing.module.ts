@@ -11,6 +11,10 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./pages/auth/login/login.module').then( m => m.LoginPageModule)
   },
+  {
+    path: 'box-select',
+    loadChildren: () => import('./pages/auth/box-select/box-select.module').then( m => m.BoxSelectPageModule)
+  },
 
 
 ];

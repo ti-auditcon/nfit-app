@@ -1,9 +1,61 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
+<section class="auth-content ion-padding">
+  <div class="auth-inner">
+      <div class="logo-auth-container">
+          <img
+              class="logo-auth"
+              src="/assets/brand/logo.png"
+              alt="Pura Sangre Crossfit"
+          />
+      </div>
+      <div>Centro deportivo: {{ box?.name}} <span><button (click)="editBox()" >editar</button></span></div>
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+          <div class="form-inner">
+              <div class="a-input">
+                  <span class="icon-input-auth icon-auth-mail"></span>
 
-<ion-content>
+                  <input
+                      type="email"
+                      class="input-email"
+                      autocapitalize="none"
+                      placeholder="Correo"
+                      name="email"
+                      required
+                      ngModel
+                  />
+              </div>
 
-</ion-content>
+              <div class="a-input">
+                  <span class="icon-input-auth icon-auth-pass"></span>
+
+                  <input
+                      type="password"
+                      class="input-pass"
+                      placeholder="Contraseña"
+                      name="password"
+                      required
+                      ngModel
+                  />
+              </div>
+          </div>
+      <ion-col class="signup-col">
+          <button
+              class="submit-login-auth"
+              full
+              type="submit"
+              expand="block"
+          >
+              Ingresar
+          </button>
+          <br/><br/>
+          <a class="link-forget" routerLink="/forgot">
+              ¿Olvidaste tu Contraseña?
+          </a>
+      </ion-col>
+      <div class="version">
+          <p style="color: rgba(255, 255, 255, 0.7);">
+              by <a href="https://asomic.com">asomic</a>
+          </p>
+      </div>
+  </form>
+  </div>
+</section>
