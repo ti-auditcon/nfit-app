@@ -32,10 +32,14 @@ export class AuthService {
 
   //verificar si existe auth 
   get isAuthenticated() {
+    console.log('autenticado');
+
     return this._auth.asObservable().pipe(map(auth => {
       if (auth) {
+        console.log(true);
         return true;
       } else {
+        console.log(false);
         return false;
       }
     }));    
@@ -54,17 +58,59 @@ export class AuthService {
     const httpOptions = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' })
     };
-    const url : string = environment.http+subdomain+environment.domain+'/oauth/token';
-    console.log(url);
-    return this.http.post<Auth>(
-              url,
-              data,
-              httpOptions
-            )
-            .pipe( response => {
-                return response;
-              }
-            );
+    const domain : string = environment.http+subdomain+environment.domain;
+    const response = this.http.post(domain+'/oauth/token', data, httpOptions);
+    return response.pipe(map( response => {
+                  console.log(response);
+                  this._auth.next(
+                    new Auth(
+                      email,
+                      response['access_token'],
+                      response['refresh_token'],
+                      response['expires_in'],
+                      domain
+                    )
+                  )
+                  this.storeUserData(this._auth.value);
+                  return this._auth.value;
+
+    })) 
   }
+
+  private storeUserData(auth: Auth) {
+    Plugins.Storage.set({ key: "auth", value: JSON.stringify(auth) });
+  }
+
+  autoLogin() {
+    return from(Plugins.Storage.get({ key: "auth" })).pipe(
+      map(storasgeData => {
+        if (!storasgeData || !storasgeData.value) {
+          return null;
+        }
+        const parsedData = JSON.parse(storasgeData.value);
+        const auth = new Auth(
+          parsedData['email'],
+          parsedData['access_token'],
+          parsedData['refresh_token'],
+          parsedData['expires_in'],
+          parsedData['domain']
+        )
+        console.log("parsedata");
+        // console.log(parsedData);
+        return auth;
+      }),
+      tap(auth => {
+        if (auth) {
+          this._auth.next(auth);
+        }
+      }),
+      map(auth => {
+        return !!auth;
+      })
+    );
+  }
+
+
+
 
 }

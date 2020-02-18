@@ -1,6 +1,6 @@
 <ion-content>
   <h1>Selecciona tu centro deportivo </h1>
-  <ion-searchbar (ionChange)="filter($event)" ></ion-searchbar>
+  <ion-searchbar ></ion-searchbar>
   <ion-list>
     <ion-item *ngFor="let client of clients">
       <ion-label (click)="storebox(client.box_name,client.sub_domain)">{{client.box_name}}</ion-label>

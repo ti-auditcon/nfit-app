@@ -4,13 +4,13 @@ export class Auth {
         public email: string,
         private _token: string,
         private _refreshToken: string,
-        private _tokenExpirationDate: Date,
+        private _tokenExpirationDate: string,
         private _domain: string,
     ) {}
 
 
     get token() {
-        if ( !this._tokenExpirationDate || this._tokenExpirationDate <= new Date()) {
+        if ( !this._tokenExpirationDate) {
             return null;
         }
         return this._token;
