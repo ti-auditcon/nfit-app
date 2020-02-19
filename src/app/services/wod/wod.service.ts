@@ -19,15 +19,28 @@ export class WodService {
 
   ) { }
 
+  getWod(id){
+    return this.authservice.auth.pipe(
+      switchMap(
+        auth => {
+          return this.http.get(
+            auth._domain+'/wods/'+id,
+            auth._header
+          )
+        }
+      )
+    );
+  }
 
   getTodayWods() {
     return this.authservice.auth.pipe(
       switchMap(
         auth => {
+          console.log(auth);
           return this.http.get(
-            auth.domain+'/profile',
-            auth.header
-          );
+            auth._domain+'/todaywods',
+            auth._header
+          )
         }
       )
     );

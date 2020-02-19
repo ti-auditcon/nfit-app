@@ -2,11 +2,11 @@ export class Auth {
     /** public variables to be accessed from the outside */
     constructor(
         public email: string,
-        private _token: string,
-        private _refreshToken: string,
-        private _tokenExpirationDate: string,
-        private _domain: string,
-        private _header: Object
+        public _token: string,
+        public _refreshToken: string,
+        public _tokenExpirationDate: string,
+        public _domain: string,
+        public _header: any
     ) {}
 
 

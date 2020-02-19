@@ -18,20 +18,16 @@ import { ClaseService } from '../../services/clase/clase.service';
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
+  todayWods: any
 
   constructor(
     private wodService: WodService,
     private claseService: ClaseService,
+    private router: Router,
   ) { }
 
   ngOnInit() {
 
-  }
-
-  ionViewWillEnter() {
-    this.wodService.getTodayWods().subscribe(response =>{
-      console.log(response);
-    })
   }
 
   doRefresh(event) {
@@ -40,5 +36,20 @@ export class DashboardPage implements OnInit {
     setTimeout(() => {
         event.target.complete();
     }, 1000);
+  }
+
+
+  ionViewWillEnter() {
+    this.wodService.getTodayWods().subscribe( response => {
+      this.todayWods = response['data'];
+    })
+  }
+
+  goToWod(wodId: any ) {
+    this.router.navigate([`/home/tabs/dashboard/wods/${wodId}`]);
+  }
+
+  goToClase(claseId: string) {
+    this.router.navigate([`/home/tabs/clases/${claseId}`]);
   }
 }

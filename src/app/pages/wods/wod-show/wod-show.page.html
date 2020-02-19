@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button defaultHref="/"></ion-back-button>
+      </ion-buttons>
+      <ion-title>
+          Workout del Día
+      </ion-title>
+  </ion-toolbar>    
+</ion-header>
+
+<ion-content >
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+      <ion-refresher-content
+            pullingIcon=""
+            pullingText=""
+            refreshingSpinner="crescent"
+        >
+      </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="clase-page" *ngIf="wod">
+      <div class="section">
+          <h1 class="titleDay-section">{{ wod?.claseType }} <br>{{ wod?.dateHuman }}</h1>
+      </div>
+
+      <div class="section">
+          <div class="card card-info">
+              <div class="info-content" *ngIf="!wod; else hasWod">
+                  No se ha subido W.O.D. el día de hoy
+              </div>
+
+              <ng-template #hasWod>
+                  <div class="info-content">
+                      <div *ngFor="let stage of wod.rels.stages.all">
+                          <h3>{{ stage.stage_type.stage_type }}</h3>
+                          <p>{{ stage.description }}</p>
+                      </div>
+                  </div>
+              </ng-template>
+          </div>
+      </div>
+  </div>
+</ion-content>

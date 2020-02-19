@@ -89,6 +89,7 @@ export class AuthService {
                       httpOptions
                     )
                   )
+                  // console.log(this._auth);
                   this.storeUserData(this._auth.value);
                   return this._auth.value;
 
@@ -107,16 +108,23 @@ export class AuthService {
           return null;
         }
         const parsedData = JSON.parse(storasgeData.value);
+        // console.log("parsedata");
+        // console.log(parsedData);
+        const httpOptions = {
+          headers: new HttpHeaders({
+            Authorization: 'Bearer ' + parsedData['_token']
+          })
+        };
         const auth = new Auth(
           parsedData['email'],
-          parsedData['access_token'],
-          parsedData['refresh_token'],
-          parsedData['expires_in'],
-          parsedData['domain'],
-          parsedData['header'],
+          parsedData['_token'],
+          parsedData['_refreshToken'],
+          parsedData['_tokenExpirationDate'],
+          parsedData['_domain'],
+          httpOptions,
         )
-        console.log("parsedata");
-        // console.log(parsedData);
+        
+        //console.log(auth);
         return auth;
       }),
       tap(auth => {

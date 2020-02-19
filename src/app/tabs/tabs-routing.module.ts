@@ -15,6 +15,10 @@ const routes: Routes = [
                 path: '',
                 loadChildren: () => import('../pages/dashboard/dashboard.module').then( m => m.DashboardPageModule)
               },
+              {
+                path: 'wods/:id',
+                loadChildren: () => import('../pages/wods/wod-show/wod-show.module').then( m => m.WodShowPageModule)
+              },
           ]
       },
     ]
