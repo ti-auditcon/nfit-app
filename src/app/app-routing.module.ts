@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from './services/auth.guard';
+import { AuthGuard } from './services/auth/auth.guard';
 
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'home/tabs/dashboard',
     pathMatch: 'full'
   },
   {
@@ -17,7 +17,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/auth/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./pages/auth/login/login.module').then( m => m.LoginPageModule),
   },
   {
     path: 'box-select',

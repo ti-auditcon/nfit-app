@@ -1,5 +1,5 @@
 //environment
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 //angular
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,7 +12,7 @@ import { map, tap } from 'rxjs/operators';
 //capacitor
 import { Plugins } from '@capacitor/core';
 //models
-import { Auth } from '../models/auth.model';
+import { Auth } from '../../models/auth.model';
 
 
 
@@ -30,9 +30,21 @@ export class AuthService {
     private loadingCtrl: LoadingController
   ) { }
 
+  public get auth() {
+    return this._auth.asObservable().pipe(
+      map(user => {
+        if (user) {
+          return user;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
   //verificar si existe auth 
   get isAuthenticated() {
-    console.log('autenticado');
+    console.log('isAuthenticated');
 
     return this._auth.asObservable().pipe(map(auth => {
       if (auth) {
@@ -62,13 +74,19 @@ export class AuthService {
     const response = this.http.post(domain+'/oauth/token', data, httpOptions);
     return response.pipe(map( response => {
                   console.log(response);
+                  const httpOptions = {
+                    headers: new HttpHeaders({
+                      Authorization: 'Bearer ' + response['access_token']
+                    })
+                  };
                   this._auth.next(
                     new Auth(
                       email,
                       response['access_token'],
                       response['refresh_token'],
                       response['expires_in'],
-                      domain
+                      domain,
+                      httpOptions
                     )
                   )
                   this.storeUserData(this._auth.value);
@@ -81,7 +99,8 @@ export class AuthService {
     Plugins.Storage.set({ key: "auth", value: JSON.stringify(auth) });
   }
 
-  autoLogin() {
+  authRecall() {
+    console.log('auth recall');
     return from(Plugins.Storage.get({ key: "auth" })).pipe(
       map(storasgeData => {
         if (!storasgeData || !storasgeData.value) {
@@ -93,7 +112,8 @@ export class AuthService {
           parsedData['access_token'],
           parsedData['refresh_token'],
           parsedData['expires_in'],
-          parsedData['domain']
+          parsedData['domain'],
+          parsedData['header'],
         )
         console.log("parsedata");
         // console.log(parsedData);

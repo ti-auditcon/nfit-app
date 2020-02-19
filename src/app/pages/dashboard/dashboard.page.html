@@ -1,9 +1,21 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>dashboard</ion-title>
-  </ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title><img src="/assets/brand/logo.png" alt=""></ion-title>
+  </ion-toolbar>    
 </ion-header>
 
 <ion-content>
-hollaa
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+        pullingIcon=""
+        pullingText=""
+        refreshingSpinner="crescent"
+    >
+    </ion-refresher-content>
+  </ion-refresher>
+
+
 </ion-content>

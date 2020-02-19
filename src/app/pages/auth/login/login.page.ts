@@ -5,7 +5,7 @@ import { NgModel, NgForm } from '@angular/forms';
 import { LoadingController, AlertController, ModalController } from '@ionic/angular';
 
 //custom
-import { AuthService } from '../../../services/auth.service';
+import { AuthService } from '../../../services/auth/auth.service';
 import { BoxSelectPage } from '../box-select/box-select.page';
 
 //capacitor
@@ -30,12 +30,20 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    // this.authService.isAuthenticated.subscribe(isAuth => {
+    //   if(isAuth){
+    //     this.router.navigateByUrl('home/tabs/dashboard');
+    //   } else {
+    //     this.authService.authRecall();
+    //   }
+    // });
   }
 
   ionViewWillEnter() {
-    this.getBox();
-    console.log(this.box);
-    
+        this.getBox();
+        console.log(this.box);
+        
+
   }
 
   //verificar box

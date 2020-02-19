@@ -15,11 +15,12 @@ export class AuthGuard implements CanLoad {
       route: Route,
       segments: UrlSegment[]
   ): Observable<boolean> | Promise<boolean> | boolean {
-    return this.authService.isAuthenticated.pipe(take(1),
+    return this.authService.isAuthenticated.pipe(
+    take(1),
     switchMap(
       isAuth => {
         if(!isAuth) {
-          return of(false);
+          return this.authService.authRecall();
         } else {
           return of(isAuth);
         }
@@ -29,7 +30,7 @@ export class AuthGuard implements CanLoad {
       isAuth => {
         if(!isAuth){
           this.router.navigateByUrl('/login');
-        } 
+        }
       }
     ));
   }

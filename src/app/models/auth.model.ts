@@ -6,6 +6,7 @@ export class Auth {
         private _refreshToken: string,
         private _tokenExpirationDate: string,
         private _domain: string,
+        private _header: Object
     ) {}
 
 
@@ -28,5 +29,12 @@ export class Auth {
             return null;
         }
         return this._domain;
+    }
+
+    get header() {
+        if ( !this._header ) {
+            return null;
+        }
+        return this._header;
     }
 }
