@@ -21,6 +21,21 @@ const routes: Routes = [
               },
           ]
       },
+      {
+        path: 'clases',
+        children: [
+            {
+              path: '',
+              loadChildren: () => import('../pages/clases/clase-index/clase-index.module').then( m => m.ClaseIndexPageModule)
+            },
+            {
+              path: ':id',
+              loadChildren: () => import('../pages/clases/clase-show/clase-show.module').then( m => m.ClaseShowPageModule)
+            },
+
+
+        ]
+    },
     ]
   },
 ];
