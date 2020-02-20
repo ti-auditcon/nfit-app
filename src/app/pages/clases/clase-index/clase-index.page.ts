@@ -1,4 +1,9 @@
+//angular
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
+//servicios
+import { ClaseService } from '../../../services/clase/clase.service';
 
 @Component({
   selector: 'app-clase-index',
@@ -7,7 +12,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClaseIndexPage implements OnInit {
 
-  constructor() { }
+  nextClases: any;
+  constructor(
+    private claseService: ClaseService,
+    private router: Router,
+  ) { }
 
   ngOnInit() {
   }
@@ -19,8 +28,19 @@ export class ClaseIndexPage implements OnInit {
     }, 1000);
   }
 
-  ionViewWillEnter(){
-    
+  ionViewWillEnter() {
+    this.claseService.getNextClases().subscribe( response => {
+      this.nextClases = response['data'].filter(clase => clase.active);
+      console.log(this.nextClases);
+    })
+  }
+
+  goToWod(wodId: any ) {
+    this.router.navigate([`/home/tabs/dashboard/wods/${wodId}`]);
+  }
+
+  goToClase(claseId: string) {
+    this.router.navigate([`/home/tabs/clases/${claseId}`]);
   }
 
 }

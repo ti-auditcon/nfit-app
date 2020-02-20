@@ -32,6 +32,19 @@ export class ClaseService {
     );
   }
 
+  getClaseReservations(id, page){
+    return this.authservice.auth.pipe(
+      switchMap(
+        auth => {
+          return this.http.get(
+            auth._domain+'/clases/'+id+'/reservations',
+            auth._header
+          )
+        }
+      )
+    );
+  }
+
   //todas las clases proximas 
   getNextClases() {
     return this.authservice.auth.pipe(
