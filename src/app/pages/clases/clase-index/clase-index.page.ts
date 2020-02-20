@@ -12,4 +12,15 @@ export class ClaseIndexPage implements OnInit {
   ngOnInit() {
   }
 
+  doRefresh(event) {
+    this.ionViewWillEnter();
+    setTimeout(() => {
+        event.target.complete();
+    }, 1000);
+  }
+
+  ionViewWillEnter(){
+    
+  }
+
 }
