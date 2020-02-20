@@ -39,6 +39,7 @@ export class ClaseShowPage implements OnInit {
 
     this.claseService.getClase(id).subscribe( response => {
       this.clase = response['data'];
+      console.log(this.clase )
     })
 
     this.claseService.getClaseReservations(id, this.reservationPage).subscribe( response => {
