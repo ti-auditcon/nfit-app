@@ -7,14 +7,18 @@ import { IonicModule } from '@ionic/angular';
 import { ClaseShowPageRoutingModule } from './clase-show-routing.module';
 
 import { ClaseShowPage } from './clase-show.page';
+import { ClaseModalPage } from '../clase-modal/clase-modal.page';
+
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ClaseShowPageRoutingModule
+    ClaseShowPageRoutingModule,
+    
   ],
-  declarations: [ClaseShowPage]
+  declarations: [ClaseShowPage, ClaseModalPage],
+  entryComponents: [ClaseModalPage]
 })
 export class ClaseShowPageModule {}

@@ -6,6 +6,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ModalController, ToastController  } from '@ionic/angular';
 //capacitor
 import { Plugins } from '@capacitor/core';
+//servicios
+import { ClaseService } from '../../../services/clase/clase.service';
 
 @Component({
   selector: 'app-clase-modal',
@@ -13,128 +15,47 @@ import { Plugins } from '@capacitor/core';
   styleUrls: ['./clase-modal.page.scss'],
 })
 export class ClaseModalPage {
-  buttonIcon: any;
-  title: any;
-  message: any;
-  buttonActionAdd: any;
-  buttonActionRemove: any;
-  buttonActionConfirm: any;
-  disabled =  false;
-  claseId: any;
+    buttonIcon: any;
+    title: any;
+    message: any;
+    buttonActionAdd: any;
+    buttonActionRemove: any;
+    buttonActionConfirm: any;
+    disabled =  false;
+    claseId: any;
 
-   constructor( public viewCtrl: ModalController,
+    constructor( public viewCtrl: ModalController,
                 private http: HttpClient,
                 private router: Router,
-                public toastController: ToastController
+                public toastController: ToastController,
+                private claseService: ClaseService,
+
              ) {}
 
-  async presentToast(message: string) {
+    async presentToast(message: string) {
       const toast = await this.toastController.create({
            message, duration: 2500, position: 'top'
       });
 
       toast.present();
-  }
+    }
 
-  reserve(id: string ) {
-      this.claseId = id; 
-      this.disabled = true;
-      Plugins.Storage.get({ key: 'authData' }).then((authData) => {
-          const parsedData = JSON.parse(authData.value) as {
-              token: string
-          };
-          const httpOptions = {
-              headers: new HttpHeaders({ Authorization: `Bearer ${parsedData.token}` })
-          };
+    confirm(id: string ) {
 
-          console.log(id);
+    }
 
-          this.http.post(environment.SERVER_URL + '/clases/' + id + '/reserve', null, httpOptions)
-              .subscribe((result: any) => {
-                  console.log('voy a reservar...');
+    remove(id: string) {
+        this.claseService.claseRemove(id).subscribe( response => {
+            this.viewCtrl.dismiss();
+            this.presentToast('Reserva Confirmada'); 
+        })
+    
+    }
 
-                  this.viewCtrl.dismiss();
-
-                  this.router.navigateByUrl('/home/tabs/clases');
-
-                  this.presentToast('Clase Reservada');
-              },
-          err => {
-              console.log(err);
-              console.log('aqui estoy');
-
-              this.viewCtrl.dismiss();
-              this.presentToast('No es posible reservar esta clase');
-          });
-      });
-  }
-
-  remove(id: string ) {
-      this.claseId = id; 
-
-      this.disabled = true;
-      Plugins.Storage.get({ key: 'authData' }).then((authData) => {
-          const parsedData = JSON.parse(authData.value) as {
-              token: string,
-          };
-
-          const httpOptions = {
-              headers: new HttpHeaders({ Authorization: `Bearer ${parsedData.token}` })
-          };
-
-          console.log(id);
-
-          this.http.post(environment.SERVER_URL + '/clases/' + id + '/remove', null, httpOptions)
-              .subscribe((result: any) => {
-               // console.log('voy a remover...');
-              this.viewCtrl.dismiss();
-              this.router.navigateByUrl('/home/tabs/clases');
-              this.presentToast('Has cedido tu cupo, ahora puedes reservar otra hora');
-          },
-          err => {
-              // console.log('error 401');
-              console.log(err);
-              this.viewCtrl.dismiss();
-          });
-      });
-  }
-
-  dismiss() {
+    dismiss() {
       this.viewCtrl.dismiss();
-  }
+     }
 
-  confirm(id: string ) {
-      this.claseId = id; 
 
-      this.disabled = true;
-
-      console.log('click confirm');
-
-      Plugins.Storage.get({ key: 'authData' }).then((authData) => {
-          const parsedData = JSON.parse(authData.value) as {
-              token: string
-          };
-          const httpOptions = {
-              headers: new HttpHeaders({ Authorization: `Bearer ${parsedData.token}` })
-          };
-
-          this.http.post(`${environment.SERVER_URL}/clases/${id}/confirm`, null, httpOptions)
-              .subscribe((result: any) => {
-                  // console.log('voy a confirnar clase...');
-                  this.viewCtrl.dismiss();
-
-                  this.router.navigateByUrl('/home/tabs/clases');
-
-                  this.presentToast('Reserva Confirmada');
-          },
-          err => {
-              console.log('error 401');
-
-              console.log(err);
-
-              this.viewCtrl.dismiss();
-          });
-      });
-  }
 }
 

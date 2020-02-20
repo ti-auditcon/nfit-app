@@ -35,12 +35,16 @@ export class ClaseIndexPage implements OnInit {
     })
   }
 
-  goToWod(wodId: any ) {
-    this.router.navigate([`/home/tabs/dashboard/wods/${wodId}`]);
-  }
+  // goToWod(wodId: any ) {
+  //   this.router.navigate([`/home/tabs/dashboard/wods/${wodId}`]);
+  // }
 
   goToClase(claseId: string) {
     this.router.navigate([`/home/tabs/clases/${claseId}`]);
+  }
+
+  goToSelectClaseType() {
+    this.router.navigate( ['/home/tabs/clases/clase-type'] );
   }
 
 }

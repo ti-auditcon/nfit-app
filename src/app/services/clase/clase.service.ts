@@ -32,6 +32,7 @@ export class ClaseService {
     );
   }
 
+  //todas las reservas de la clase
   getClaseReservations(id, page){
     return this.authservice.auth.pipe(
       switchMap(
@@ -58,4 +59,63 @@ export class ClaseService {
       )
     );
   }
+
+  //confirmar clase
+  claseConfirm(id) {
+    return this.authservice.auth.pipe(
+      switchMap(
+        auth => {
+          return this.http.post(
+            auth._domain+'/clases/'+id+'/confirm',
+            null,
+            auth._header
+          )
+        }
+      )
+    );
+  }
+
+  //ceder clase
+  claseRemove(id) {
+    return this.authservice.auth.pipe(
+      switchMap(
+        auth => {
+          return this.http.post(
+            auth._domain+'/clases/'+id+'/remove',
+            null,
+            auth._header
+          )
+        }
+      )
+    );
+  }
+
+  //tipos de clases
+  getTypes() {
+    return this.authservice.auth.pipe(
+      switchMap(
+        auth => {
+          return this.http.get(
+            auth._domain+'/clases/types',
+            auth._header
+          )
+        }
+      )
+    );
+  }
+
+  //tipos de clases
+  getTypeWeek(type) {
+    return this.authservice.auth.pipe(
+      switchMap(
+        auth => {
+          return this.http.get(
+            auth._domain+'/clases/types',
+            auth._header
+          )
+        }
+      )
+    );
+  }
+
 }

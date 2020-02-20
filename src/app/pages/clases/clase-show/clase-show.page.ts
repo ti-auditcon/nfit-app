@@ -2,9 +2,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-
+//ionic
+import { ModalController} from '@ionic/angular';
 //servicios
 import { ClaseService } from '../../../services/clase/clase.service';
+//modals
+import { ClaseModalPage } from '../clase-modal/clase-modal.page';
+
 
 @Component({
   selector: 'app-clase-show',
@@ -20,6 +24,8 @@ export class ClaseShowPage implements OnInit {
     private claseService: ClaseService,
     private router: Router,
     public activatedRoute: ActivatedRoute,
+    private modalController: ModalController,
+
   ) { }
 
   ngOnInit() {
@@ -47,5 +53,40 @@ export class ClaseShowPage implements OnInit {
       console.log(this.reservations)
     })
 
+  }
+  //modals 
+  async openModalCeder() {
+    const modal = await this.modalController.create({
+        component: ClaseModalPage,
+        componentProps: {
+            custom_id: 0,
+            title: 'Ceder tu Cupo',
+            message: 'Si cedes tu cupo podrás reservar en otro horario',
+            buttonIcon: '/assets/icon/info-brand.svg',
+            claseId: this.clase.clase_id,
+            buttonActionRemove: true,
+        },
+        cssClass: 'modal-confirm'
+    });
+    return await modal.present();
+  }
+
+  async confirmModal() {
+    const modal = await this.modalController.create({
+        component: ClaseModalPage,
+        componentProps: {
+            custom_id: 1,
+            title: 'Confirmar esta clase',
+            message: `${this.clase.dateHuman} de ${this.clase.start} a ${this.clase.end}hrs. No podras cancelar esta accion`,
+            buttonIcon: '/assets/icon/info-brand.svg',
+            claseId: this.clase.clase_id,
+            buttonActionConfirm: true,
+        },
+        cssClass: 'modal-confirm'
+    });
+    // this.title = modal.componentProps.title;
+    // this.message = modal.componentProps.message;
+    // this.buttonIcon = modal.componentProps.buttonIcon;
+    return await modal.present();
   }
 }

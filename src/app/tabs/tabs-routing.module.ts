@@ -29,6 +29,14 @@ const routes: Routes = [
               loadChildren: () => import('../pages/clases/clase-index/clase-index.module').then( m => m.ClaseIndexPageModule)
             },
             {
+              path: 'clase-type',
+              loadChildren: () => import('../pages/clases/select-clase-type/select-clase-type.module').then( m => m.SelectClaseTypePageModule)
+            },
+            {
+              path: 'clase-type/:claseTypeId/select-day',
+              loadChildren: () => import('../pages/clases/select-day/select-day.module').then( m => m.SelectDayPageModule)
+            },
+            {
               path: ':id',
               loadChildren: () => import('../pages/clases/clase-show/clase-show.module').then( m => m.ClaseShowPageModule)
             },
