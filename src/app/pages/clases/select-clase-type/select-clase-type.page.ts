@@ -30,7 +30,7 @@ export class SelectClaseTypePage implements OnInit  {
             spinner: 'crescent'
         }).then( loading => {
                 loading.present();
-                this.claseService.getTypes().subscribe(
+                this.claseService.getClaseTypes().subscribe(
                     respose => {
                         this.claseTypes = respose['data'];
                         loading.dismiss();

@@ -75,7 +75,7 @@
       </div>
     </div>
 <!-- boton ceder -->
-    <div *ngIf="clase?.rels?.auth_reservation.status === 'Pendiente'" class="buttons-edit-reserva">
+    <div *ngIf="clase?.rels?.auth_reservation.status.id === 1" class="buttons-edit-reserva">
       <button class="button-edit" (click)="openModalCeder()">Ceder cupo</button>
     </div>
 
@@ -117,7 +117,7 @@
 </ion-content>
 
 <ion-footer *ngIf="clase" >
-  <div class="button-fix" *ngIf="(clase.active) && (clase.rels.auth_reservation.has)">
+  <div class="button-fix" *ngIf="(clase.active) && (clase.rels.auth_reservation.has) && (clase.rels.auth_reservation.status.id == 1)" >
       <button class="reservar" (click)="confirmModal()" >Confirmar asistencia</button>
   </div>
 

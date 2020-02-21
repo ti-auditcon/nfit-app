@@ -32,8 +32,8 @@
                     <h6>{{clase?.month}}</h6>
                 </div>
                 <div class="data">
-                    <div class="status " [ngClass]="{'confirmada': clase?.rels.auth_reservation.status == 'Confirmada', 'reservada': clase?.rels.auth_reservation.status == 'Pendiente' }" >
-                        <p>{{clase?.rels.auth_reservation.status}}</p>
+                    <div class="status " [ngClass]="{'confirmada': clase?.rels.auth_reservation.status.id == 2, 'reservada': clase?.rels.auth_reservation.status.id == 1 }" >
+                        <p>{{clase?.rels.auth_reservation.status.reservation_status}}</p>
                     </div>
                     <div class="classname">
                         <h3>{{clase?.typeName}}</h3>

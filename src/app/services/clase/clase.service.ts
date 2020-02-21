@@ -60,6 +60,21 @@ export class ClaseService {
     );
   }
 
+  //reservar clase
+  claseReserve(id) {
+    return this.authservice.auth.pipe(
+      switchMap(
+        auth => {
+          return this.http.post(
+            auth._domain+'/clases/'+id+'/reserve',
+            null,
+            auth._header
+          )
+        }
+      )
+    );
+  }
+
   //confirmar clase
   claseConfirm(id) {
     return this.authservice.auth.pipe(
@@ -91,7 +106,7 @@ export class ClaseService {
   }
 
   //tipos de clases
-  getTypes() {
+  getClaseTypes() {
     return this.authservice.auth.pipe(
       switchMap(
         auth => {
@@ -105,17 +120,29 @@ export class ClaseService {
   }
 
   //tipos de clases
-  getTypeWeek(type) {
+  getClaseTypeWeek(type) {
     return this.authservice.auth.pipe(
       switchMap(
         auth => {
           return this.http.get(
-            auth._domain+'/clases/types',
+            auth._domain+'/week/'+type,
             auth._header
           )
         }
       )
     );
   }
-
+  //clase type hours
+  getClaseTypeHour(type, date) {
+    return this.authservice.auth.pipe(
+      switchMap(
+        auth => {
+          return this.http.get(
+            auth._domain+'/clases?date='+date+'&type='+type,
+            auth._header
+          )
+        }
+      )
+    );
+  }
 }

@@ -55,6 +55,25 @@ export class ClaseShowPage implements OnInit {
 
   }
   //modals 
+  async reserveModal() {
+    const modal = await this.modalController.create({
+        component: ClaseModalPage,
+        componentProps: {
+            title: 'Reservar esta hora',
+            message: this.clase.dateHuman + ' de ' + this.clase.start +
+                     ' a ' + this.clase.end + 'hrs',
+            buttonIcon: '/assets/icon/info-brand.svg',
+            claseId: this.clase.clase_id,
+            buttonActionAdd: true,
+        },
+        cssClass: 'modal-confirm'
+    });
+    modal.onDidDismiss().then( data => {
+      this.ionViewWillEnter();
+    });
+    return await modal.present();
+  }
+
   async openModalCeder() {
     const modal = await this.modalController.create({
         component: ClaseModalPage,
@@ -67,6 +86,9 @@ export class ClaseShowPage implements OnInit {
             buttonActionRemove: true,
         },
         cssClass: 'modal-confirm'
+    });
+    modal.onDidDismiss().then( data => {
+      this.ionViewWillEnter();
     });
     return await modal.present();
   }
@@ -84,9 +106,9 @@ export class ClaseShowPage implements OnInit {
         },
         cssClass: 'modal-confirm'
     });
-    // this.title = modal.componentProps.title;
-    // this.message = modal.componentProps.message;
-    // this.buttonIcon = modal.componentProps.buttonIcon;
+    modal.onDidDismiss().then( data => {
+      this.ionViewWillEnter();
+    });
     return await modal.present();
   }
 }

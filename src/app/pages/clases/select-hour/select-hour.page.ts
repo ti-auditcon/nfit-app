@@ -1,19 +1,21 @@
+
 //angular
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 //ionic
 import { LoadingController } from '@ionic/angular';
+//capacitor
+import { Plugins } from '@capacitor/core';
 //services
 import { ClaseService } from '../../../services/clase/clase.service';
 
-
 @Component({
-  selector: 'app-select-day',
-  templateUrl: './select-day.page.html',
-  styleUrls: ['./select-day.page.scss'],
+  selector: 'app-select-hour',
+  templateUrl: './select-hour.page.html',
+  styleUrls: ['./select-hour.page.scss'],
 })
-export class SelectDayPage  {
-    public week: any = [];
+export class SelectHourPage {
+    public clases: any = [];
 
     constructor( 
                  private router: Router,
@@ -22,30 +24,26 @@ export class SelectDayPage  {
                  private claseService: ClaseService,
                 ) { }
 
-
-    ngOnInit() {
-        
-    }
-
     doRefresh(event) {
         this.ionViewWillEnter();
         setTimeout(() => {
             event.target.complete();
         }, 1000);
-    }
+        }
 
     ionViewWillEnter() {
         let loading = this.loadingCtrl.create({
             spinner: 'crescent'
         }).then( loading => {
                 loading.present();
-                const id = this.activatedRoute.snapshot.paramMap.get('claseTypeId');
-                this.claseService.getClaseTypeWeek(id).subscribe(
+                const date = this.activatedRoute.snapshot.paramMap.get('date');
+
+                const clasetype = this.activatedRoute.snapshot.paramMap.get('claseTypeId');
+                this.claseService.getClaseTypeHour(clasetype,date).subscribe(
                     respose => {
                         console.log(respose);
-                        this.week = respose['data'];
+                        this.clases = respose['data'];
                         loading.dismiss();
-
                     }
 
                 )
@@ -53,17 +51,10 @@ export class SelectDayPage  {
         );
     }
 
-    goToAddHour(date: string = '2015-01-01', has: boolean = false ) {
-        console.log(has);
-
-        if (has) {
-            const claseTypeId = this.activatedRoute.snapshot.paramMap.get('claseTypeId');
-
-            this.router.navigateByUrl(
-                `/home/tabs/clases/clase-type/${claseTypeId}/select-day/${date}`
-            );
-        }
+    /**
+     * [goToAddConfirm description]
+     */
+    goToAddConfirm(claseId = '0', has = false) {
+        this.router.navigateByUrl(`/home/tabs/clases/${claseId}`);
     }
-            
-
 }

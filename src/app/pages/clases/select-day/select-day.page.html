@@ -8,8 +8,15 @@
 </ion-header>
 
 <ion-content >
-    <!-- <ion-button (click)="goToAddHour()"></ion-button> -->
-    <!-- <div class="reserva">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content 
+            pullingIcon=""
+            pullingText=""
+            refreshingSpinner="crescent"
+        >
+        </ion-refresher-content>
+    </ion-refresher>
+    <div class="reserva">
         <h1 class="titleReserva-section">Selecciona un día</h1>
 
         <div class="section grid-days">
@@ -86,5 +93,5 @@
 
         </div>
 
-    </div> -->
+    </div>
 </ion-content>

@@ -40,8 +40,18 @@ export class ClaseModalPage {
       toast.present();
     }
 
-    confirm(id: string ) {
+    reserve(id: string ) {
+      this.claseService.claseReserve(id).subscribe( response => {
+        this.viewCtrl.dismiss();
+        this.presentToast('Clase reservada'); 
+      })
+    }
 
+    confirm(id: string ) {
+      this.claseService.claseConfirm(id).subscribe( response => {
+        this.viewCtrl.dismiss();
+        this.presentToast('Reserva Confirmada'); 
+      })
     }
 
     remove(id: string) {
@@ -49,7 +59,6 @@ export class ClaseModalPage {
             this.viewCtrl.dismiss();
             this.presentToast('Reserva Confirmada'); 
         })
-    
     }
 
     dismiss() {
